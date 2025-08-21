@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>天津食物语only3.0 · 百味良缘</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "STZhongsong", "KaiTi", serif;
+      background: url('shiwuyu3.0.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #000;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    h1 {
+      font-size: 32px;
+      color: #ffd700;
+      margin: 40px 0 30px 0;
+      padding: 12px 30px;
+      border: 3px solid #ffd700;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.3);
+      box-shadow: 0 0 20px rgba(255,215,0,0.6);
+    }
+    .section {
+      background: rgba(255,255,240,0.8);
+      border: 3px solid #c99b6d;
+      border-radius: 20px;
+      padding: 20px 40px;
+      margin: 15px 0;
+      box-shadow: 0 0 15px rgba(200,155,109,0.5);
+      width: 80%;
+      max-width: 600px;
+      font-size: 20px;
+    }
+    .btn {
+      padding: 12px 26px;
+      margin: 10px;
+      font-size: 18px;
+      border-radius: 40px;
+      border: 2px solid #ffd700;
+      background: rgba(255,0,0,0.7);
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.3s;
+      box-shadow: 0 0 10px rgba(255,215,0,0.5);
+    }
+    .btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px rgba(255,215,0,0.8);
+    }
+    #reply {
+      font-size: 22px;
+      font-weight: bold;
+      color: #000; /* 黑色显示文字 */
+      margin-top: 20px;
+      padding: 16px 30px;
+      background: rgba(255, 255, 240, 0.8);
+      border: 3px solid #c99b6d;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(200,155,109,0.5);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    #reply.show {
+      opacity: 1;
+      animation: floatUp 0.8s ease forwards;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(20px) scale(0.9); opacity: 0; }
+      50% { transform: translateY(-10px) scale(1.05); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .interactive p {
+      margin: 10px 0;
+      font-weight: bold;
+      color: #1e90ff;
+    }
+    .interactive input[type="text"] {
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 2px solid #888;
+      width: 60%;
+      font-size: 18px;
+      margin-right: 10px;
+    }
+    .interactive button {
+      padding: 8px 16px;
+      font-size: 18px;
+      border-radius: 12px;
+      border: 2px solid #555;
+      background: linear-gradient(145deg, #5c9eff, #2b55ff);
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.3s;
+    }
+    .interactive button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(50,50,255,0.7);
+    }
+    #message {
+      font-size: 20px;
+      font-weight: bold;
+      color: #7a1eff;
+      margin-top: 15px;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    #message.show {
+      opacity: 1;
+      animation: floatUp 0.8s ease forwards;
+    }
+    #music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ffd700;
+      color: #b32020;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255,215,0,0.7);
+      transition: transform 0.15s;
+    }
+    #music-btn:hover { transform: scale(1.1); }
+    footer {
+      margin: 40px 0;
+      font-size: 14px;
+      color: #f6d48d;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <h1>天津食物语only3.0 · 百味良缘</h1>
+
+  <!-- 活动信息按钮 -->
+  <div class="section">
+    <button class="btn" onclick="showReply('2025.11.29')">活动日期</button>
+    <button class="btn" onclick="showReply('禁男禁未成年')">活动准则</button>
+    <div id="reply"></div>
+  </div>
+
+  <!-- 填空互动 -->
+  <div class="section interactive">
+    <p>我们都很想少主，虽然搬到了新家，可空桑就还是空桑——</p >
+    <input type="text" id="userInput" placeholder="填写你的消息...">
+    <button onclick="submitMessage()">提交</button>
+    <div id="message">食魂们已经收到少主的消息啦，他们都很开心，也更加思念少主</div>
+  </div>
+
+  <footer>© 2025 百味良缘天津场</footer>
+
+  <!-- 背景音乐 -->
+  <audio id="bgm" loop>
+    <source src="M800004UcHn23uJP3u.mp3" type="audio/mpeg">
+  </audio>
+
+  <button id="music-btn" onclick="toggleMusic()">播放BGM</button>
+
+  <script>
+    const bgm = document.getElementById('bgm');
+    const btn = document.getElementById('music-btn');
+    const reply = document.getElementById('reply');
+    const message = document.getElementById('message');
+
+    function toggleMusic() {
+      if (bgm.paused) {
+        bgm.play(); btn.textContent = '暂停BGM';
+      } else {
+        bgm.pause(); btn.textContent = '播放BGM';
+      }
+    }
+
+    function showReply(text){
+      reply.textContent = text;
+      reply.classList.remove('show');
+      void reply.offsetWidth;
+      reply.classList.add('show');
+    }
+
+    function submitMessage() {
+      const input = document.getElementById('userInput');
+      if(input.value.trim() === "") {
+        alert("请填写你的消息～");
+        return;
+      }
+      input.value = "";
+      message.classList.remove('show');
+      void message.offsetWidth;
+      message.classList.add('show');
+    }
+
+    window.addEventListener('click', () => {
+      if (bgm.paused) bgm.play();
+    }, { once: true });
+  </script>
+</body>
+</html>
